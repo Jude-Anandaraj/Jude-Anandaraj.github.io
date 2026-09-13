@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>JGR Studios | 3D Assets</title>
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Main Website CSS -->
+
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Asset Page CSS -->
+
+    <link rel="stylesheet" href="assets.css" />
+
+    <!-- 3D Model Viewer -->
+
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js"
+    ></script>
+  </head>
+
+  <body>
+    <!-- =================================
+         NAVIGATION
+    ================================== -->
+
+    <nav class="navbar">
+      <div class="logo">JGR<span>Studios</span></div>
+
+      <ul class="nav-links">
+        <li>
+          <a href="JGR.HTML"> Home </a>
+        </li>
+
+        <li>
+          <a href="JGR.HTML#skills"> Design Core </a>
+        </li>
+
+        <li>
+          <a href="JGR.HTML#projects"> Featured Worlds </a>
+        </li>
+
+        <li>
+          <a href="assets.html" class="active"> 3D Assets </a>
+        </li>
+
+        <li>
+          <a href="JGR.HTML#upcoming"> Upcoming </a>
+        </li>
+
+        <li>
+          <a href="JGR.HTML#contact"> Contact </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- =================================
+         HERO
+    ================================== -->
+
+    <header class="assets-hero">
+      <div class="assets-hero-content">
+        <!-- <p class="section-label">JGR STUDIOS</p> -->
+
+        <h1>3D <span>ASSETS</span></h1>
+
+        <p>
+          Game-ready 3D assets created in Blender for games, environments, and
+          interactive experiences.
+        </p>
+      </div>
+    </header>
+
+    <!-- =================================
+         FILTERS
+    ================================== -->
+
+    <section class="asset-filters">
+      <button class="filter-btn active" data-filter="all">ALL</button>
+
+      <button class="filter-btn" data-filter="characters">CHARACTERS</button>
+
+      <button class="filter-btn" data-filter="weapons">WEAPONS</button>
+
+      <button class="filter-btn" data-filter="environment">ENVIRONMENT</button>
+
+      <button class="filter-btn" data-filter="props">PROPS</button>
+
+      <button class="filter-btn" data-filter="other">OTHER</button>
+    </section>
+
+    <!-- =================================
+         ASSET LIBRARY
+    ================================== -->
+
+    <main class="asset-library">
+      <!-- =================================
+             WEAPONS
+        ================================== -->
+
+      <section class="asset-section" data-section="weapons">
+        <div class="section-heading">
+          <span> 01 </span>
+
+          <div>
+            <h2>WEAPONS</h2>
+
+            <p>Weapons and equipment created for game development.</p>
+          </div>
+        </div>
+
+        <!-- ASSET GRID -->
+
+        <div class="asset-grid">
+          <!-- =================================
+                     AXE
+                ================================== -->
+
+          <article class="asset-card" data-category="weapons">
+            <!-- 3D MODEL -->
+
+            <div class="asset-image">
+              <model-viewer
+                src="assets/AXE.glb"
+                alt="3D Axe"
+                camera-controls
+                auto-rotate
+                shadow-intensity="1"
+                exposure="1"
+                environment-image="neutral"
+              >
+              </model-viewer>
+
+              <span class="asset-number"> 01 </span>
+            </div>
+
+            <!-- CARD INFORMATION -->
+
+            <div class="asset-content">
+              <h3>Axe</h3>
+
+              <p>A 3D axe created in Blender for game development.</p>
+
+              <!-- TAGS -->
+
+              <div class="asset-tags">
+                <span> BLENDER </span>
+
+                <span> GLB </span>
+              </div>
+
+              <!-- DOWNLOAD -->
+
+              <a href="assets/AXE.glb" class="download-btn" download>
+              
+                DOWNLOAD
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <div class="asset-grid">
+          <!-- =================================
+                     AXE
+                ================================== -->
+
+          <article class="asset-card" data-category="weapons">
+            <!-- 3D MODEL -->
+
+            <div class="asset-image">
+              <model-viewer
+                src="assets/Sword1.glb"
+                alt="3D Axe"
+                camera-controls
+                auto-rotate
+                shadow-intensity="1"
+                exposure="1"
+                environment-image="neutral"
+              >
+              </model-viewer>
+
+              <span class="asset-number"> 02 </span>
+            </div>
+
+            <!-- CARD INFORMATION -->
+
+            <div class="asset-content">
+              <h3>Sword</h3>
+
+              <p>A 3D sword created in Blender for game development.</p>
+
+              <!-- TAGS -->
+
+              <div class="asset-tags">
+                <span> BLENDER </span>
+
+                <span> GLB </span>
+              </div>
+
+              <!-- DOWNLOAD -->
+
+              <a href="assets/Sword1.glb" class="download-btn" download>
+              
+                DOWNLOAD
+              </a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- =================================
+             CHARACTERS
+        ================================== -->
+
+      <section class="asset-section" data-section="characters">
+        <div class="section-heading">
+          <span> 02 </span>
+
+          <div>
+            <h2>CHARACTERS</h2>
+
+            <p>Characters and creatures created for game environments.</p>
+          </div>
+        </div>
+
+        <div class="asset-grid">
+          <!-- Add character cards here -->
+        </div>
+      </section>
+
+      <!-- =================================
+             ENVIRONMENT
+        ================================== -->
+
+      <section class="asset-section" data-section="environment">
+        <div class="section-heading">
+          <span> 03 </span>
+
+          <div>
+            <h2>ENVIRONMENT</h2>
+
+            <p>Environmental assets for building immersive game worlds.</p>
+          </div>
+        </div>
+
+        <div class="asset-grid">
+          <!-- Add environment assets here -->
+        </div>
+      </section>
+
+      <!-- =================================
+             PROPS
+        ================================== -->
+
+      <section class="asset-section" data-section="props">
+        <div class="section-heading">
+          <span> 04 </span>
+
+          <div>
+            <h2>PROPS</h2>
+
+            <p>Props and interactive objects created for game scenes.</p>
+          </div>
+        </div>
+
+        <div class="asset-grid">
+          <!-- Add prop assets here -->
+        </div>
+      </section>
+
+      <!-- =================================
+             OTHER
+        ================================== -->
+
+      <section class="asset-section" data-section="other">
+        <div class="section-heading">
+          <span> 05 </span>
+
+          <div>
+            <h2>OTHER</h2>
+
+            <p>Experimental and miscellaneous 3D assets.</p>
+          </div>
+        </div>
+
+        <div class="asset-grid">
+          <!-- Add other assets here -->
+        </div>
+      </section>
+    </main>
+
+    <!-- =================================
+         LICENSE
+    ================================== -->
+
+    <section class="asset-license">
+      <p class="section-label">ASSET INFORMATION</p>
+
+      <h2>USAGE & LICENSE</h2>
+
+      <p>
+        These assets are created by JGR Studios. Please check the individual
+        asset information before using them in personal or commercial projects.
+      </p>
+    </section>
+
+    <!-- =================================
+         FOOTER
+    ================================== -->
+
+    <footer>
+      <p>© 2026 JGR Studios. All rights reserved.</p>
+    </footer>
+
+    <!-- Asset JavaScript -->
+
+    <script src="assets.js"></script>
+  </body>
+</html>

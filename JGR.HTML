@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>JGR Studios | Portfolio</title>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- =========================
+         LOADER
+    ========================== -->
+    <div id="loader">
+      <h1>JGR</h1>
+    </div>
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+    <nav>
+      <div class="logo">JGR STUDIOS</div>
+
+      <ul>
+        <li>
+          <a href="index.html" class="active">Home</a>
+        </li>
+
+        <li>
+          <a href="#skills">Design Core</a>
+        </li>
+
+        <li>
+          <a href="#games">Featured Worlds</a>
+        </li>
+
+        <li>
+          <a href="assets.html">3D Assets</a>
+        </li>
+
+        <li>
+          <a href="#upcoming">Upcoming</a>
+        </li>
+
+        <li>
+          <a href="#contact">Contact</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- =========================
+         HERO
+    ========================== -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <h1>JGR</h1>
+
+        <p>
+          Level Designer & World Builder specializing in atmospheric horror
+          layouts, pacing, and environmental storytelling.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#games" class="btn primary"> Explore Worlds </a>
+
+          <a href="assets.html" class="btn secondary"> View 3D Assets </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         DESIGN PROFILE
+    ========================== -->
+    <section id="skills">
+      <div class="about-layout">
+        <div class="about-text">
+          <h2 class="section-title">Design Profile</h2>
+
+          <p class="about-p">
+            I construct immersive 3D spaces designed to manipulate player
+            emotion, tension, and pacing. My focus is on architectural layout,
+            sightlines, puzzle flows, and environmental storytelling.
+          </p>
+        </div>
+
+        <div class="skills-grid">
+          <div class="skill-tag">Level Layout & Greyboxing</div>
+
+          <div class="skill-tag">Unity / ProBuilder</div>
+
+          <div class="skill-tag">Environmental Storytelling</div>
+
+          <div class="skill-tag">Visual Scripting</div>
+
+          <div class="skill-tag">Atmospheric Lighting</div>
+
+          <div class="skill-tag">Pacing & Tension Design</div>
+
+          <div class="skill-tag">Blender</div>
+
+          <div class="skill-tag">3D Asset Creation</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         FEATURED PROJECTS
+    ========================== -->
+    <section id="games">
+      <h2 class="section-title">Featured Projects</h2>
+
+      <div class="grid">
+        <!-- PROJECT 1 -->
+        <div class="card">
+          <div class="img-container">
+            <img src="NoWayOut.png" alt="No Way Out Escape Room" />
+          </div>
+
+          <div class="card-content">
+            <h3>Escape Room</h3>
+
+            <p class="game-tag">Horror Level Design</p>
+
+            <p class="game-desc">
+              An intricate puzzle sandbox structured around tight choke points,
+              hidden sightlines, and deliberate tension building through
+              geometry.
+            </p>
+
+            <div class="tech-highlight">
+              <strong>Design Focus:</strong>
+
+              Built using blockout-to-final workflows. Player guidance is
+              created through lighting, environmental cues, and level geometry.
+            </div>
+
+            <div class="card-actions">
+              <a
+                class="btn card-btn primary"
+                href="https://drive.google.com/uc?export=download&id=1TcH_YN7HPOqeYdLlU7Ib_Tl3s1alMw_1"
+              >
+                Download
+              </a>
+
+              <button
+                class="btn card-btn secondary"
+                onclick="openVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"
+              >
+                Trailer
+              </button>
+
+              <button
+                class="btn card-btn tertiary"
+                onclick="toggleDetails('escape-details')"
+              >
+                Design Specs
+              </button>
+            </div>
+
+            <div id="escape-details" class="details-pane">
+              <ul>
+                <li>
+                  <strong>Tools:</strong>
+                  Unity, ProBuilder, Polybrush
+                </li>
+
+                <li>
+                  <strong>Focus:</strong>
+                  Spatial puzzles and environmental guidance
+                </li>
+
+                <li>
+                  <strong>Role:</strong>
+                  Solo Level Designer & World Builder
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROJECT 2 -->
+        <div class="card">
+          <div class="img-container">
+            <img
+              src="https://images.unsplash.com/photo-1542751110-97427bbecf20"
+              alt="Dark Protocol"
+            />
+          </div>
+
+          <div class="card-content">
+            <h3>Dark Protocol</h3>
+
+            <p class="game-tag">Atmospheric Horror</p>
+
+            <p class="game-desc">
+              An audio-reliant horror environment structured around echo
+              chambers and claustrophobic hallways designed to amplify enemy
+              encounters.
+            </p>
+
+            <div class="tech-highlight">
+              <strong>Design Focus:</strong>
+
+              Structured sightlines and narrow corridors are used to intensify
+              psychological isolation.
+            </div>
+
+            <div class="card-actions">
+              <button
+                class="btn card-btn secondary"
+                onclick="openVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"
+              >
+                Watch Trailer
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         UPCOMING PROJECT
+    ========================== -->
+    <section id="upcoming">
+      <h2 class="section-title">In Active Blockout</h2>
+
+      <div class="card upcoming-card">
+        <div class="card-content">
+          <h3>Project Eclipse</h3>
+
+          <p class="game-desc">
+            A non-linear psychological horror layout exploring open-ended
+            architectural dread and modular asset integration.
+          </p>
+
+          <div class="progress-bar-container">
+            <div class="progress-bar" style="width: 15%"></div>
+          </div>
+
+          <p class="progress-text">Blockout Phase: 15% Complete</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         CONTACT
+    ========================== -->
+    <section id="contact">
+      <h2 class="section-title">Collaborate</h2>
+
+      <p class="about">
+        Looking for Level Designer, Level Artist, or World Builder
+        opportunities.
+      </p>
+
+      <div class="contact-wrapper">
+        <a class="btn primary" href="mailto:gerryn.017@gmail.com">
+          Email Me Directly
+        </a>
+      </div>
+    </section>
+
+    <!-- =========================
+         VIDEO MODAL
+    ========================== -->
+    <div class="modal" id="modal" onclick="closeVideo()">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <iframe id="videoFrame" allowfullscreen></iframe>
+
+        <button class="close-modal-btn" onclick="closeVideo()">×</button>
+      </div>
+    </div>
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+    <footer>
+      <p>
+        © 2026 JGR Studios. Portfolio structured for level design, world
+        building, and game development.
+      </p>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script src="script.js"></script>
+  </body>
+</html>
