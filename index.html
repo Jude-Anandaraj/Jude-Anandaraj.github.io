@@ -1,523 +1,480 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
       content="JGR Studios — Level Designer & World Builder specializing in atmospheric horror layouts, pacing, and environmental storytelling."
     />
-    <meta name="theme-color" content="#07080b" />
+    <meta name="theme-color" content="#020204" />
     <meta name="color-scheme" content="dark" />
 
-    <!-- Link previews (Discord, LinkedIn, iMessage…) -->
-    <meta property="og:title" content="JGR Studios | Level Designer & World Builder" />
-    <meta property="og:description" content="Atmospheric horror layouts, pacing, and environmental storytelling." />
-    <meta property="og:image" content="images/jgr-loading.jpg" />
-    <meta property="og:type" content="website" />
+    <title>JGR Studios | Portfolio</title>
 
-    <title>JGR Studios | Level Designer &amp; World Builder</title>
+    <!-- Fonts are self-hosted (see fonts/) so every browser looks the same -->
+    <link rel="preload" href="fonts/orbitron-900.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin />
 
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M8 1h23v23l-7 7H1V8z' fill='%2307080b' stroke='%2300e5ff' stroke-width='2'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='16' fill='%2300e5ff' text-anchor='middle'%3EJ%3C/text%3E%3C/svg%3E" />
+    <!-- CSS (bump ?v= after changes so browsers don't show a cached copy) -->
+    <link rel="stylesheet" href="style.css?v=9" />
 
-    <!-- Fonts are self-hosted (fonts/) so every browser renders identically -->
-    <link rel="preload" href="fonts/space-grotesk-600.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin />
-
-    <!-- Bump ?v= after edits so browsers never show a stale cached copy -->
-    <link rel="stylesheet" href="style.css?v=8" />
-
-    <!-- Lets CSS hide reveal-on-scroll content only when JavaScript is running -->
-    <script>document.documentElement.classList.add("js");</script>
-
-    <!-- 3D model viewer (used by the asset preview) -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js"></script>
+    <!-- Skip the intro loader for repeat visits in the same session -->
+    <script>
+      try {
+        if (sessionStorage.getItem("jgr-visited")) document.documentElement.classList.add("skip-loader");
+      } catch (e) {}
+    </script>
   </head>
 
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+    <!-- =========================
+         LOADER
+    ========================== -->
+    <div id="loader">
+      <div class="loader-inner">
+        <h1 class="glitch" data-text="JGR">JGR</h1>
+        <div class="loader-bar"><span></span></div>
+        <p class="loader-text">
+          INITIALIZING WORLD <span id="loader-percent">0</span>%
+        </p>
+      </div>
+    </div>
+
+    <!-- Scroll progress + custom cursor -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+    <div class="cursor-dot" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true"></div>
+    <div class="noise" aria-hidden="true"></div>
 
     <!-- =========================
          NAVIGATION
     ========================== -->
-    <header class="site-header" id="nav">
-      <div class="container nav-inner">
-        <a href="index.html" class="logo" aria-label="JGR Studios home">
-          <span class="logo-mark">J</span>
-          <span class="logo-text">JGR<span>Studios</span></span>
-        </a>
+    <nav id="nav">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">J</span>
+        JGR<span class="logo-sub">STUDIOS</span>
+      </a>
 
-        <nav aria-label="Main">
-          <ul class="nav-links" id="nav-links">
-            <li><a href="#home" class="active">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#work">Work</a></li>
-            <li><a href="assets.html">3D Assets</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </nav>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
 
-        <a href="#contact" class="btn btn-small btn-outline nav-cta">Let's talk</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#skills">Design Core</a></li>
+        <li><a href="#games">Featured Worlds</a></li>
+        <li><a href="assets.html">3D Assets</a></li>
+        <li><a href="#upcoming">Upcoming</a></li>
+        <li><a href="#contact" class="nav-cta">Contact</a></li>
+      </ul>
+    </nav>
 
-        <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
-          <span></span><span></span>
-        </button>
+    <!-- =========================
+         HERO
+    ========================== -->
+    <section class="hero" id="home">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-vignette" aria-hidden="true"></div>
+
+      <!-- HUD corners -->
+      <div class="hud hud-tl" aria-hidden="true">SYS.ONLINE<br />LVL_DESIGN.v2</div>
+      <div class="hud hud-tr" aria-hidden="true">
+        <span id="hud-time">00:00:00</span><br />SECTOR 01
       </div>
-    </header>
 
-    <main id="main">
-      <!-- =========================
-           HERO
-      ========================== -->
-      <section class="hero" id="home">
-        <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-content">
+        <p class="eyebrow">
+          <span class="status-dot"></span> Available for opportunities
+        </p>
 
-        <div class="container hero-inner">
-          <div class="hero-copy">
-            <p class="eyebrow">
-              <span class="status-dot"></span>
-              Available for opportunities
-            </p>
+        <h1 class="glitch hero-title" data-text="JGR">JGR</h1>
 
-            <h1 class="hero-title">
-              I design worlds<br />
-              players <span class="accent-text">feel.</span>
-            </h1>
+        <p class="hero-role">
+          <span class="role-prefix">&gt;</span>
+          <span id="typed-role">Level Designer</span><span class="caret">_</span>
+        </p>
 
-            <p class="hero-lead">
-              Level Designer &amp; World Builder specializing in atmospheric
-              horror layouts, pacing, and environmental storytelling.
-            </p>
+        <p class="hero-desc">
+          Level Designer &amp; World Builder specializing in atmospheric horror
+          layouts, pacing, and environmental storytelling.
+        </p>
 
-            <div class="hero-actions">
-              <a href="#work" class="btn btn-primary">
-                View my work
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-              </a>
-              <a href="assets.html" class="btn btn-ghost">3D Assets</a>
-            </div>
-
-            <dl class="hero-stats">
-              <div><dt>Featured worlds</dt><dd data-count="2">2</dd></div>
-              <div><dt>3D assets</dt><dd data-count="3">3</dd></div>
-              <div><dt>In blockout</dt><dd data-count="1">1</dd></div>
-            </dl>
-          </div>
-
-          <!-- Signature visual: an animated level blockout -->
-          <figure class="blueprint" aria-label="Animated level blockout showing a player path through a choke point past an enemy sightline">
-            <div class="window-bar">
-              <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-              <span class="window-title">level_01.blockout</span>
-              <span class="window-tag">GREYBOX</span>
-            </div>
-
-            <svg class="bp-svg" viewBox="0 0 560 440" role="img" aria-hidden="true">
-              <defs>
-                <pattern id="bp-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                  <path d="M20 0H0V20" fill="none" stroke="rgba(0,229,255,0.07)" stroke-width="1" />
-                </pattern>
-                <linearGradient id="bp-cone" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0" stop-color="#ff4d5e" stop-opacity="0" />
-                  <stop offset="1" stop-color="#ff4d5e" stop-opacity="0.38" />
-                </linearGradient>
-                <radialGradient id="bp-glow">
-                  <stop offset="0" stop-color="#00e5ff" stop-opacity="0.55" />
-                  <stop offset="1" stop-color="#00e5ff" stop-opacity="0" />
-                </radialGradient>
-              </defs>
-
-              <rect width="560" height="440" fill="url(#bp-grid)" />
-
-              <!-- Rooms -->
-              <g class="bp-rooms">
-                <rect class="bp-room" x="40" y="300" width="140" height="110" pathLength="1" />
-                <rect class="bp-room" x="40" y="50" width="260" height="150" pathLength="1" />
-                <rect class="bp-room" x="360" y="50" width="160" height="120" pathLength="1" />
-                <rect class="bp-room" x="340" y="250" width="180" height="160" pathLength="1" />
-              </g>
-
-              <!-- Corridors (fills erase the wall where rooms connect) -->
-              <g class="bp-corridors">
-                <rect x="96" y="198" width="28" height="104" />
-                <rect x="298" y="101" width="64" height="33" />
-                <rect x="421" y="168" width="28" height="84" />
-                <path class="bp-wall" pathLength="1" d="M95 200V300M125 200V300" />
-                <path class="bp-wall" pathLength="1" d="M300 100H360M300 135H360" />
-                <path class="bp-wall" pathLength="1" d="M420 170V250M450 170V250" />
-              </g>
-
-              <!-- Cover objects -->
-              <g class="bp-cover">
-                <rect x="150" y="118" width="24" height="24" />
-                <rect x="196" y="150" width="20" height="20" />
-                <rect x="238" y="76" width="22" height="22" />
-                <rect x="372" y="300" width="40" height="16" />
-                <rect x="452" y="282" width="16" height="44" />
-              </g>
-
-              <!-- Enemy sightline sweep -->
-              <g transform="translate(272 172)">
-                <g>
-                  <path d="M0 0L-130 -46L-130 46Z" fill="url(#bp-cone)" />
-                  <animateTransform attributeName="transform" type="rotate" values="-8;34;-8" dur="6s" repeatCount="indefinite" />
-                </g>
-                <circle r="6" class="bp-enemy" />
-              </g>
-
-              <!-- Player path -->
-              <path
-                id="bp-route"
-                class="bp-route"
-                d="M110 380L110 250L110 165L170 165L215 118L330 118L435 118L435 200L435 300L470 362"
-              />
-              <rect class="bp-exit" x="458" y="350" width="24" height="24" rx="3" />
-              <path class="bp-pickup" d="M470 112l8 8-8 8-8-8z" />
-
-              <g class="bp-player">
-                <circle r="16" fill="url(#bp-glow)" />
-                <circle r="5.5" fill="#00e5ff" />
-                <animateMotion dur="9s" repeatCount="indefinite" rotate="auto">
-                  <mpath href="#bp-route" />
-                </animateMotion>
-              </g>
-
-              <!-- Annotations -->
-              <g class="bp-labels">
-                <text x="52" y="322">01 · START</text>
-                <text x="52" y="72">02 · HUB / COMBAT</text>
-                <text x="372" y="72">03 · SAFE ROOM</text>
-                <text x="352" y="272">04 · EXIT</text>
-                <path class="bp-leader" d="M127 252H160" />
-                <text x="166" y="256" class="bp-callout">CHOKE POINT</text>
-                <text x="150" y="226" class="bp-callout bp-danger">SIGHTLINE</text>
-              </g>
-            </svg>
-
-            <figcaption class="bp-legend">
-              <span><i class="lg-path"></i>Player path</span>
-              <span><i class="lg-sight"></i>Enemy sightline</span>
-              <span><i class="lg-cover"></i>Cover</span>
-            </figcaption>
-          </figure>
+        <div class="hero-buttons">
+          <a href="#games" class="btn primary magnetic">
+            <span>Explore Worlds</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </a>
+          <a href="assets.html" class="btn secondary magnetic">
+            <span>View 3D Assets</span>
+          </a>
         </div>
-      </section>
 
-      <!-- =========================
-           TOOLS STRIP
-      ========================== -->
-      <div class="tools-strip" aria-label="Tools">
-        <div class="marquee">
-          <div class="marquee-track">
-            <span>Unity</span><span>ProBuilder</span><span>Blender</span><span>Polybrush</span>
-            <span>Visual Scripting</span><span>Greyboxing</span><span>Atmospheric Lighting</span><span>Environmental Storytelling</span>
-            <span aria-hidden="true">Unity</span><span aria-hidden="true">ProBuilder</span><span aria-hidden="true">Blender</span><span aria-hidden="true">Polybrush</span>
-            <span aria-hidden="true">Visual Scripting</span><span aria-hidden="true">Greyboxing</span><span aria-hidden="true">Atmospheric Lighting</span><span aria-hidden="true">Environmental Storytelling</span>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-num" data-count="2">0</span>
+            <span class="stat-label">Featured Worlds</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num" data-count="3">0</span>
+            <span class="stat-label">3D Assets</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num" data-count="1">0</span>
+            <span class="stat-label">In Blockout</span>
           </div>
         </div>
       </div>
 
-      <!-- =========================
-           ABOUT
-      ========================== -->
-      <section class="section" id="about">
-        <div class="container">
-          <header class="section-head reveal">
-            <p class="kicker"><span>01</span> About</p>
-            <h2 class="section-title">Design profile</h2>
-          </header>
+      <a href="#skills" class="scroll-indicator" aria-label="Scroll down">
+        <span class="mouse"><span class="wheel"></span></span>
+        <span class="scroll-text">SCROLL</span>
+      </a>
+    </section>
 
-          <div class="about-grid">
-            <div class="about-copy reveal">
-              <p class="statement">
-                I construct immersive 3D spaces designed to manipulate
-                <em>player emotion</em>, <em>tension</em>, and <em>pacing</em>.
-              </p>
-              <p class="muted">
-                My focus is on architectural layout, sightlines, puzzle flows,
-                and environmental storytelling.
-              </p>
-            </div>
+    <!-- =========================
+         TOOLS MARQUEE
+    ========================== -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Unity</span><i>✦</i><span>ProBuilder</span><i>✦</i>
+        <span>Blender</span><i>✦</i><span>Polybrush</span><i>✦</i>
+        <span>Visual Scripting</span><i>✦</i><span>Greyboxing</span><i>✦</i>
+        <span>Atmospheric Lighting</span><i>✦</i><span>Environmental Storytelling</span><i>✦</i>
+        <span>Unity</span><i>✦</i><span>ProBuilder</span><i>✦</i>
+        <span>Blender</span><i>✦</i><span>Polybrush</span><i>✦</i>
+        <span>Visual Scripting</span><i>✦</i><span>Greyboxing</span><i>✦</i>
+        <span>Atmospheric Lighting</span><i>✦</i><span>Environmental Storytelling</span><i>✦</i>
+      </div>
+    </div>
 
-            <div class="toolkit reveal">
-              <p class="kicker-small">Toolkit</p>
-              <ul class="skill-list">
-                <li>Level Layout &amp; Greyboxing</li>
-                <li>Unity / ProBuilder</li>
-                <li>Environmental Storytelling</li>
-                <li>Visual Scripting</li>
-                <li>Atmospheric Lighting</li>
-                <li>Pacing &amp; Tension Design</li>
-                <li>Blender</li>
-                <li>3D Asset Creation</li>
-              </ul>
-            </div>
-          </div>
+    <!-- =========================
+         DESIGN PROFILE
+    ========================== -->
+    <section id="skills" class="section">
+      <div class="section-head">
+        <span class="section-index">01</span>
+        <div>
+          <p class="section-label">// Design Core</p>
+          <h2 class="section-title">Design Profile</h2>
+        </div>
+      </div>
 
+      <div class="about-layout">
+        <div class="about-text reveal">
+          <p class="about-lead">
+            I construct immersive 3D spaces designed to manipulate
+            <span class="highlight">player emotion</span>,
+            <span class="highlight">tension</span>, and
+            <span class="highlight">pacing</span>.
+          </p>
+          <p class="about-p">
+            My focus is on architectural layout, sightlines, puzzle flows, and
+            environmental storytelling.
+          </p>
+
+          <!-- Design process -->
           <ol class="process">
-            <li class="reveal">
+            <li>
               <span class="process-num">01</span>
-              <h3>Concept</h3>
-              <p>Define the emotion, the player's goal, and the space's story.</p>
+              <div>
+                <h4>Concept</h4>
+                <p>Define the emotion, the player's goal, and the space's story.</p>
+              </div>
             </li>
-            <li class="reveal">
+            <li>
               <span class="process-num">02</span>
-              <h3>Greybox</h3>
-              <p>Block out layout, choke points, and sightlines.</p>
+              <div>
+                <h4>Greybox</h4>
+                <p>Block out layout, choke points, and sightlines.</p>
+              </div>
             </li>
-            <li class="reveal">
+            <li>
               <span class="process-num">03</span>
-              <h3>Iterate</h3>
-              <p>Tune pacing, puzzle flow, and player guidance.</p>
+              <div>
+                <h4>Iterate</h4>
+                <p>Tune pacing, puzzle flow, and player guidance.</p>
+              </div>
             </li>
-            <li class="reveal">
+            <li>
               <span class="process-num">04</span>
-              <h3>Atmosphere</h3>
-              <p>Add lighting, set dressing, and final assets.</p>
+              <div>
+                <h4>Atmosphere</h4>
+                <p>Add lighting, set dressing, and final assets.</p>
+              </div>
             </li>
           </ol>
         </div>
-      </section>
 
-      <!-- =========================
-           WORK
-      ========================== -->
-      <section class="section" id="work">
-        <div class="container">
-          <header class="section-head reveal">
-            <p class="kicker"><span>02</span> Selected work</p>
-            <h2 class="section-title">Featured worlds</h2>
-          </header>
-
-          <!-- PROJECT 1 -->
-          <article class="project reveal">
-            <div class="project-media">
-              <button class="media-frame" data-image="NoWayOut.png" aria-label="View Escape Room poster full size">
-                <img src="NoWayOut.png" alt="Escape Room: No Way Out — Final Minutes poster" loading="lazy" width="1402" height="1122" />
-              </button>
-            </div>
-
-            <div class="project-body">
-              <p class="project-index">W—01 <span class="pill pill-live">Playable</span></p>
-              <h3 class="project-title">Escape Room</h3>
-              <p class="project-tag">Horror Level Design</p>
-
-              <p class="project-desc">
-                An intricate puzzle sandbox structured around tight choke
-                points, hidden sightlines, and deliberate tension building
-                through geometry.
-              </p>
-
-              <p class="project-focus">
-                <strong>Design focus</strong>
-                Built using blockout-to-final workflows. Player guidance is
-                created through lighting, environmental cues, and level
-                geometry.
-              </p>
-
-              <dl class="meta">
-                <div><dt>Role</dt><dd>Solo Level Designer &amp; World Builder</dd></div>
-                <div><dt>Tools</dt><dd>Unity, ProBuilder, Polybrush</dd></div>
-                <div><dt>Focus</dt><dd>Spatial puzzles &amp; environmental guidance</dd></div>
-              </dl>
-
-              <div class="project-actions">
-                <a
-                  class="btn btn-primary"
-                  href="https://drive.google.com/uc?export=download&id=1TcH_YN7HPOqeYdLlU7Ib_Tl3s1alMw_1"
-                >
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M6 11l6 6 6-6M4 21h16" /></svg>
-                  Download
-                </a>
-                <!-- Put a YouTube embed URL in data-video to enable the trailer -->
-                <button class="btn btn-ghost" data-video="">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" /></svg>
-                  Trailer
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- PROJECT 2 -->
-          <article class="project project-flip reveal">
-            <div class="project-media">
-              <button class="media-frame" data-image="images/jgr-loading.jpg" aria-label="View loading screen full size">
-                <img src="images/jgr-loading.jpg" alt="DC: Justice Guardians Reborn loading screen" loading="lazy" width="1600" height="900" />
-              </button>
-
-              <div class="gallery">
-                <button class="gallery-thumb" data-image="images/jgr-home.jpg" aria-label="View HQ screen">
-                  <img src="images/jgr-home.jpg" alt="" loading="lazy" />
-                  <span>HQ</span>
-                </button>
-                <button class="gallery-thumb" data-image="images/jgr-roster.jpg" aria-label="View team roster screen">
-                  <img src="images/jgr-roster.jpg" alt="" loading="lazy" />
-                  <span>Roster</span>
-                </button>
-                <button class="gallery-thumb" data-image="images/jgr-loading.jpg" aria-label="View loading screen">
-                  <img src="images/jgr-loading.jpg" alt="" loading="lazy" />
-                  <span>Loading</span>
-                </button>
-              </div>
-            </div>
-
-            <div class="project-body">
-              <p class="project-index">W—02 <span class="pill pill-dev">In development</span></p>
-              <h3 class="project-title">JGR: Justice Guardians Reborn</h3>
-              <p class="project-tag">Hero Collector · Team Strategy</p>
-
-              <p class="project-desc">
-                A DC hero-collection strategy game built around 3-hero squads.
-                The center hero leads the team, and faction, relationship and
-                trio synergies reward smart roster building.
-              </p>
-
-              <p class="project-focus">
-                <strong>Design focus</strong>
-                Systems design and UI. Team Bonuses that support, not replace,
-                hero level, skills and gear, plus 7 Ultimate Power Cores that
-                boost one skill in battle.
-              </p>
-
-              <dl class="meta">
-                <div><dt>Squad</dt><dd>3 heroes. Center slot is the Leader</dd></div>
-                <div><dt>Bonuses</dt><dd>Faction, relationship, trio, family, rival, legendary</dd></div>
-                <div><dt>Cores</dt><dd>WayneTech, Kryptonian, Amazonian, Speed Force, Lantern, Atlantean, Apokolips</dd></div>
-              </dl>
-
-              <ul class="chips" aria-label="Other systems">
-                <li>Lantern Rings</li>
-                <li>Spectrum Gems</li>
-                <li>Tactical Ops</li>
-                <li>Patrol Zones</li>
-                <li>Store</li>
-              </ul>
-
-              <div class="project-actions">
-                <!-- Put a YouTube embed URL in data-video to enable the trailer -->
-                <button class="btn btn-ghost" data-video="">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" /></svg>
-                  Trailer
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- PROJECT 3: IN BLOCKOUT -->
-          <article class="wip reveal" id="upcoming">
-            <div class="wip-info">
-              <p class="project-index">W—03 <span class="pill pill-wip">In active blockout</span></p>
-              <h3 class="project-title">Project Eclipse</h3>
-              <p class="project-desc">
-                A non-linear psychological horror layout exploring open-ended
-                architectural dread and modular asset integration.
-              </p>
-            </div>
-
-            <div class="wip-progress">
-              <div class="progress-head">
-                <span>Blockout phase</span>
-                <strong data-progress="15">15%</strong>
-              </div>
-              <div class="progress-track" role="progressbar" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" aria-label="Blockout progress">
-                <div class="progress-fill" data-width="15"></div>
-              </div>
-              <ol class="phases">
-                <li class="done">Concept</li>
-                <li class="current">Blockout</li>
-                <li>Lighting</li>
-                <li>Polish</li>
-              </ol>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- =========================
-           ASSET LIBRARY TEASER
-      ========================== -->
-      <section class="section" id="assets">
-        <div class="container">
-          <div class="asset-teaser reveal">
-            <div class="asset-teaser-copy">
-              <p class="kicker"><span>03</span> Asset library</p>
-              <h2 class="section-title">Game-ready 3D assets</h2>
-              <p class="muted">
-                Created in Blender for games, environments, and interactive
-                experiences. Inspect each model in 3D and download it.
-              </p>
-              <a href="assets.html" class="btn btn-primary">
-                Browse the library
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-              </a>
-            </div>
-
-            <div class="asset-teaser-stage">
-              <model-viewer
-                src="assets/Sword1.glb"
-                alt="3D sword model"
-                camera-controls
-                auto-rotate
-                disable-zoom
-                shadow-intensity="1"
-                exposure="1.1"
-                environment-image="neutral"
-                interaction-prompt="none"
-                loading="lazy"
-              ></model-viewer>
-              <span class="stage-label">Sword · GLB · drag to rotate</span>
-            </div>
+        <div class="skills-grid">
+          <div class="skill-tag reveal">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /></svg>
+            <span>Level Layout &amp; Greyboxing</span>
+          </div>
+          <div class="skill-tag reveal">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 5v10l-9 5-9-5V7z" /><path d="M12 22V12M21 7l-9 5-9-5" /></svg>
+            <span>Unity / ProBuilder</span>
+          </div>
+          <div class="skill-tag reveal">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z" /><path d="M8 7h6M8 11h6" /></svg>
+            <span>Environmental Storytelling</span>
+          </div>
+          <div class="skill-tag reveal">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2" /><circle cx="19" cy="6" r="2" /><circle cx="12" cy="18" r="2" /><path d="M7 6h10M6 8l5 8M18 8l-5 8" /></svg>
+            <span>Visual Scripting</span>
+          </div>
+          <div class="skill-tag reveal">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z" /></svg>
+            <span>Atmospheric Lighting</span>
+          </div>
+          <div class="skill-tag reveal">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4" /></svg>
+            <span>Pacing &amp; Tension Design</span>
+          </div>
+          <div class="skill-tag reveal">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="14" cy="13" r="6" /><circle cx="14" cy="13" r="2" /><path d="M3 8l7 2M6 4l6 4" /></svg>
+            <span>Blender</span>
+          </div>
+          <div class="skill-tag reveal">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z" /><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5" /></svg>
+            <span>3D Asset Creation</span>
           </div>
         </div>
-      </section>
-
-      <!-- =========================
-           CONTACT
-      ========================== -->
-      <section class="section" id="contact">
-        <div class="container">
-          <div class="contact reveal">
-            <p class="kicker"><span>04</span> Contact</p>
-            <h2 class="contact-title">
-              Have a world that<br />needs building?
-            </h2>
-            <p class="muted">
-              Looking for Level Designer, Level Artist, or World Builder
-              opportunities.
-            </p>
-
-            <div class="contact-actions">
-              <a class="btn btn-primary btn-large" href="mailto:gerryn.017@gmail.com">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 7l9 6 9-6" /></svg>
-                Email me
-              </a>
-              <button class="copy-email" id="copy-email" data-email="gerryn.017@gmail.com">
-                <span>gerryn.017@gmail.com</span>
-                <span class="copy-label">Copy</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
+      </div>
+    </section>
 
     <!-- =========================
-         MODAL (trailers + images)
+         FEATURED PROJECTS
+    ========================== -->
+    <section id="games" class="section">
+      <div class="section-head">
+        <span class="section-index">02</span>
+        <div>
+          <p class="section-label">// Featured Worlds</p>
+          <h2 class="section-title">Featured Projects</h2>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- PROJECT 1 -->
+        <article class="card tilt reveal">
+          <div class="card-glow" aria-hidden="true"></div>
+          <div class="img-container">
+            <img src="NoWayOut.png" alt="No Way Out Escape Room" loading="lazy" />
+            <span class="card-badge">Playable</span>
+            <span class="card-index">W—01</span>
+          </div>
+
+          <div class="card-content">
+            <p class="game-tag">Horror Level Design</p>
+            <h3>Escape Room</h3>
+
+            <p class="game-desc">
+              An intricate puzzle sandbox structured around tight choke points,
+              hidden sightlines, and deliberate tension building through
+              geometry.
+            </p>
+
+            <div class="tech-highlight">
+              <strong>Design Focus:</strong>
+              Built using blockout-to-final workflows. Player guidance is
+              created through lighting, environmental cues, and level geometry.
+            </div>
+
+            <div class="card-actions">
+              <a
+                class="btn card-btn primary"
+                href="https://drive.google.com/uc?export=download&id=1TcH_YN7HPOqeYdLlU7Ib_Tl3s1alMw_1"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M6 11l6 6 6-6M4 21h16" /></svg>
+                Download
+              </a>
+
+              <!-- Add a YouTube embed URL to data-video to enable the trailer -->
+              <button class="btn card-btn secondary" data-video="">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" /></svg>
+                Trailer
+              </button>
+
+              <button
+                class="btn card-btn tertiary"
+                data-toggle="escape-details"
+                aria-expanded="false"
+              >
+                Design Specs
+              </button>
+            </div>
+
+            <div id="escape-details" class="details-pane">
+              <ul>
+                <li><strong>Tools</strong><span>Unity, ProBuilder, Polybrush</span></li>
+                <li><strong>Focus</strong><span>Spatial puzzles and environmental guidance</span></li>
+                <li><strong>Role</strong><span>Solo Level Designer &amp; World Builder</span></li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT 2 -->
+        <article class="card tilt reveal">
+          <div class="card-glow" aria-hidden="true"></div>
+          <div class="img-container">
+            <img
+              src="images/jgr-loading.jpg"
+              alt="DC: Justice Guardians Reborn loading screen"
+              loading="lazy"
+            />
+            <span class="card-badge"><span class="status-dot live"></span> In Development</span>
+            <span class="card-index">W—02</span>
+          </div>
+
+          <div class="card-content">
+            <p class="game-tag">Hero Collector · Team Strategy</p>
+            <h3>JGR: Justice Guardians Reborn</h3>
+
+            <p class="game-desc">
+              A DC hero-collection strategy game built around 3-hero squads. The
+              center hero leads the team, and faction, relationship and trio
+              synergies reward smart roster building.
+            </p>
+
+            <div class="tech-highlight">
+              <strong>Design Focus:</strong>
+              Systems design and UI. Team Bonuses that support, not replace,
+              hero level, skills and gear, plus 7 Ultimate Power Cores that
+              boost one skill in battle.
+            </div>
+
+            <div class="card-actions">
+              <!-- Add a YouTube embed URL to data-video to enable the trailer -->
+              <button class="btn card-btn secondary" data-video="">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" /></svg>
+                Trailer
+              </button>
+
+              <button
+                class="btn card-btn tertiary"
+                data-toggle="jgr-details"
+                aria-expanded="false"
+              >
+                Game Systems
+              </button>
+            </div>
+
+            <div id="jgr-details" class="details-pane">
+              <div>
+                <ul>
+                  <li><strong>Squad</strong><span>3 heroes. Center slot is the Leader with a unique Leader Ability</span></li>
+                  <li><strong>Bonuses</strong><span>Faction, relationship, trio, family, rival and legendary team bonuses</span></li>
+                  <li><strong>Cores</strong><span>WayneTech, Kryptonian, Amazonian, Speed Force, Lantern, Atlantean, Apokolips</span></li>
+                  <li><strong>Also</strong><span>Lantern Rings &amp; Spectrum Gems, Tactical Ops, Patrol Zones, Store</span></li>
+                </ul>
+
+                <div class="screen-gallery">
+                  <button class="screen-thumb" data-image="images/jgr-home.jpg" aria-label="View HQ screen">
+                    <img src="images/jgr-home.jpg" alt="HQ command center screen" loading="lazy" />
+                    <span>HQ Screen</span>
+                  </button>
+                  <button class="screen-thumb" data-image="images/jgr-roster.jpg" aria-label="View team roster screen">
+                    <img src="images/jgr-roster.jpg" alt="Team roster screen" loading="lazy" />
+                    <span>Team Roster</span>
+                  </button>
+                  <button class="screen-thumb" data-image="images/jgr-loading.jpg" aria-label="View loading screen">
+                    <img src="images/jgr-loading.jpg" alt="Loading screen" loading="lazy" />
+                    <span>Loading</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- =========================
+         UPCOMING PROJECT
+    ========================== -->
+    <section id="upcoming" class="section">
+      <div class="section-head">
+        <span class="section-index">03</span>
+        <div>
+          <p class="section-label">// In Development</p>
+          <h2 class="section-title">In Active Blockout</h2>
+        </div>
+      </div>
+
+      <div class="upcoming-card reveal">
+        <div class="upcoming-scan" aria-hidden="true"></div>
+        <div class="upcoming-info">
+          <p class="game-tag"><span class="status-dot live"></span> Work in progress</p>
+          <h3>Project Eclipse</h3>
+          <p class="game-desc">
+            A non-linear psychological horror layout exploring open-ended
+            architectural dread and modular asset integration.
+          </p>
+        </div>
+
+        <div class="upcoming-progress">
+          <div class="progress-head">
+            <span>Blockout Phase</span>
+            <span class="progress-value" data-progress="15">0%</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" data-width="15"></div>
+          </div>
+
+          <ul class="phases">
+            <li class="done">Concept</li>
+            <li class="current">Blockout</li>
+            <li>Lighting</li>
+            <li>Polish</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         CONTACT
+    ========================== -->
+    <section id="contact" class="section">
+      <div class="contact-panel reveal">
+        <p class="section-label">// Collaborate</p>
+        <h2 class="contact-title">
+          Let's build something<br /><span class="gradient-text">terrifying.</span>
+        </h2>
+
+        <p class="about">
+          Looking for Level Designer, Level Artist, or World Builder
+          opportunities.
+        </p>
+
+        <div class="contact-wrapper">
+          <a class="btn primary magnetic" href="mailto:gerryn.017@gmail.com">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 7l9 6 9-6" /></svg>
+            <span>Email Me Directly</span>
+          </a>
+
+          <button class="email-copy" id="email-copy" data-email="gerryn.017@gmail.com">
+            <span class="email-text">gerryn.017@gmail.com</span>
+            <span class="copy-label">Copy</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         VIDEO MODAL
     ========================== -->
     <div class="modal" id="modal" aria-hidden="true">
-      <div class="modal-dialog" role="dialog" aria-modal="true" aria-label="Media viewer">
-        <button class="modal-close" id="modal-close" aria-label="Close">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
-        </button>
-        <div class="modal-body">
-          <iframe id="modal-video" title="Trailer" allow="autoplay; fullscreen" allowfullscreen hidden></iframe>
-          <img id="modal-image" alt="" hidden />
-          <div class="modal-empty" id="modal-empty" hidden>
-            <p class="kicker-small">Signal not found</p>
-            <h3>Trailer coming soon</h3>
-            <p>This trailer is still in production. Check back later.</p>
-          </div>
+      <div class="modal-content" role="dialog" aria-modal="true" aria-label="Trailer">
+        <button class="close-modal-btn" id="close-modal" aria-label="Close">×</button>
+        <iframe id="videoFrame" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <img id="modal-image" class="modal-image" alt="" hidden />
+        <div class="modal-empty" id="modal-empty">
+          <p class="section-label">// Signal not found</p>
+          <h3>Trailer coming soon</h3>
+          <p>This trailer is still in production. Check back later.</p>
         </div>
       </div>
     </div>
@@ -525,19 +482,20 @@
     <!-- =========================
          FOOTER
     ========================== -->
-    <footer class="site-footer">
-      <div class="container footer-inner">
-        <a href="index.html" class="logo" aria-label="JGR Studios home">
-          <span class="logo-mark">J</span>
-          <span class="logo-text">JGR<span>Studios</span></span>
-        </a>
-        <p>© <span id="year">2026</span> JGR Studios. Level design, world building &amp; game development.</p>
+    <footer>
+      <div class="footer-inner">
+        <a href="index.html" class="logo"><span class="logo-mark">J</span>JGR<span class="logo-sub">STUDIOS</span></a>
+        <p>
+          © 2026 JGR Studios. Portfolio structured for level design, world
+          building, and game development.
+        </p>
         <a href="#home" class="back-top" aria-label="Back to top">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" /></svg>
         </a>
       </div>
     </footer>
 
-    <script src="script.js?v=8"></script>
+    <!-- JAVASCRIPT -->
+    <script src="script.js?v=9"></script>
   </body>
 </html>
