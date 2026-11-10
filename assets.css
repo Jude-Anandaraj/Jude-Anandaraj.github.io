@@ -369,6 +369,27 @@
   margin-bottom: 18px;
 }
 
+/* Credit line for models made by other artists */
+.asset-content p.asset-credit {
+  margin: -10px 0 16px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+  color: var(--text-3);
+}
+
+.asset-credit a {
+  color: var(--text-2);
+  text-decoration: underline;
+  text-decoration-color: rgba(0, 229, 255, 0.35);
+  text-underline-offset: 3px;
+}
+
+.asset-credit a:hover {
+  color: var(--cyan);
+}
+
 /* =========================================
    TAGS
 ========================================= */
